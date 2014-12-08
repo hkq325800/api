@@ -19,6 +19,8 @@ Route::get('/getInfo', 'AdminController@getInfo');
 Route::get('/signUp','AdminController@signUp');
 Route::get('/logIn', 'AdminController@logIn');
 Route::get('/city2weather', 'AdminController@city2weather');
+
+Route::get('/getweibotop10', 'AdminController@getweibotop10');
 /*Route::get('/', 'AdminController@show');*/
 
 
