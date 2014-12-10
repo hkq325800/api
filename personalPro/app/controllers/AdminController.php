@@ -59,6 +59,12 @@ class AdminController extends BaseController {
 		$user->account=Input::get('username');
 		$user->password=Input::get('password');
 		$user->save();
+		$custom = new Custom;
+		$custom->user_id=User::where('account','=',Input::get('username'))->lists('id')[0];
+		$custom->isBiliframe=1;
+		$custom->isWeibotop10=1;
+		$custom->isWeather=1;
+		$custom->save();
 		echo 'ok';
 	}
 	public function getInfo(){
@@ -101,7 +107,7 @@ class AdminController extends BaseController {
 		$arr[5]=iconv('GBK','UTF-8',$arr[5]);
   		echo $arr[5];
 	}*/
-	public function getweibotop10(){
+	public function getWeibotop10(){
 		//echo vget("http://www.bilibili.com/")
 		$html=file_get_contents('http://s.weibo.com/');//拉取初始文件
 		$inner='http://s.weibo.com';
@@ -121,13 +127,44 @@ class AdminController extends BaseController {
 		$response = json_encode($arrres);
 		echo $response;
 	}
+	public function getId(){
+		$account=Input::get('account');
+		$id=User::where('account','=',$account)->lists('id')[0];
+		echo $id;
+	}
+	public function getCustom(){
+		$id=Input::get('id');
+		if($id!=0){
+			$isBiliframe=Custom::where('user_id','=',$id)->lists('isBiliframe')[0];
+			$isWeibotop10=Custom::where('user_id','=',$id)->lists('isWeibotop10')[0];
+			$isWeather=Custom::where('user_id','=',$id)->lists('isWeather')[0];
+		}
+		else{
+			$isBiliframe=1;
+			$isWeibotop10=1;
+			$isWeather=1;
+		}
+		$arr=array('isBiliframe'=>$isBiliframe,'isWeibotop10'=>$isWeibotop10,'isWeather'=>$isWeather);
+		$response = json_encode($arr);
+		echo $response;
+	}
+	public function saveSetting(){
+		$id=Input::get('id');
+		$isBiliframe=Input::get('a')?$isBiliframe=1:$isBiliframe=0;
+		$isWeibotop10=Input::get('b')?$isWeibotop10=1:$isWeibotop10=0;
+		$isWeather=Input::get('c')?$isWeather=1:$isWeather=0;
+		$custom=Custom::where('user_id','=',$id)->find(1);
+		$custom->isBiliframe=$isBiliframe;
+		$custom->isWeibotop10=$isWeibotop10;
+		$custom->isWeather=$isWeather;
+		$custom->save();
+		echo 'ok';
+	}
 
 	//define ( 'IS_PROXY', true ); //是否启用代理
 	
-	static function vget($url) { // 模拟获取内容函数
-		/* cookie文件 */
+	/*static function vget($url) { // 模拟获取内容函数
 		$cookie_file = dirname ( __FILE__ ) . "/cookie_" . md5 ( basename ( __FILE__ ) ) . ".txt"; // 设置Cookie文件保存路径及文件名
-		/*模拟浏览器*/
 		$user_agent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.1.4322)";
 	    $curl = curl_init (); // 启动一个CURL会话
 	    if (true) {
@@ -153,5 +190,5 @@ class AdminController extends BaseController {
 	    }
 	    curl_close ( $curl ); // 关闭CURL会话
 	    return $tmpInfo; // 返回数据
-	}
+	}*/
 }

@@ -19,8 +19,10 @@ Route::get('/getInfo', 'AdminController@getInfo');
 Route::get('/signUp','AdminController@signUp');
 Route::get('/logIn', 'AdminController@logIn');
 Route::get('/city2weather', 'AdminController@city2weather');
-
-Route::get('/getweibotop10', 'AdminController@getweibotop10');
+Route::get('/getId','AdminController@getId');
+Route::get('/getCustom','AdminController@getCustom');
+Route::get('/getWeibotop10', 'AdminController@getWeibotop10');
+Route::get('/saveSetting','AdminController@saveSetting');
 /*Route::get('/', 'AdminController@show');*/
 
 
