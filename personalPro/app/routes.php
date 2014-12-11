@@ -13,7 +13,9 @@
 //最后，app/routes.php 文件会被加载。一旦 routes.php 文件被加载，Request 对象就被发送给应用程序对象，继而被派发到某个路由上。
 Route::get('/demo1', 'AdminController@demo1');///demo1?tmp1=1
 Route::get('/demo2/{tmp1}', 'AdminController@demo2');
-/*Route::get('/',APP::abort(404));*/
+Route::get('/',function(){
+    return View::make('demo');
+});
 
 Route::get('/getInfo', 'AdminController@getInfo');
 Route::get('/signUp','AdminController@signUp');
