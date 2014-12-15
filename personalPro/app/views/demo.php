@@ -1,6 +1,8 @@
 <?php
-	require_once './php/session.php';
-	require_once './php/common.php';
+    require_once './php/session.php';
+    require_once './php/common.php';
+  //manifest="./my.appcache"
+  //<?php if(is_login()) echo 'style="display:none"' 
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -31,19 +33,18 @@
         responsiveFallback: true
       });
 		});
-
 </script>
 </head>
-<script>var userid = "<?php if(is_login()){echo current_userid();}else echo '0'; ?>";</script>
+<script>var userid = "<?php if(is_login()){echo current_userid();}else {echo '0';} ?>";</script>
 
 <body style="width:100%;" onkeydown="if(window.event.keyCode==13){ window.event.keyCode=9}" background="./img/2.jpg">
 <!-- <audio src="hifi raver.mp3" autoplay="true" loop="true" style=""></audio> -->
 <div class=face>
   <header class = "head-container" onselectstart="return false"> <a class = "logo-container" style="margin-top:6px"> 
-    <!-- <i class = "icon-cog icon-spin icon-2x"></i> &nbsp;--><span>Personal Pro</span> <span id="welcome">欢迎你！
-    <?php if(is_login())echo current_account(); ?>
-    </span> <span id="weather" style="padding-left:50px"></span> </a>
-    <div class = "login-container"> <a class = "login-btn-grey" id = "toLogIn" href = "#" <?php if(is_login()) echo 'style="display:none"' ?>>Log In</a> <a class = "login-btn-grey" id = "toSignUp" href = "#" <?php if(is_login()) echo 'style="display:none"' ?>>Sign Up</a> <a class = "login-btn-grey" id = "toSetting" href= "#" <?php if(!is_login()) echo 'style="display:none"' ?>>Setting</a> <a class = "login-btn-grey" id = "toLogOut" href= "php/logout.php" <?php if(!is_login()) echo 'style="display:none"' ?>>Log Out</a> </div>
+    <!-- <i class = "icon-cog icon-spin icon-2x"></i> &nbsp;--><span id="welcome">Personal Pro 欢迎你！</span>
+    <span style="margin-left:30px"><?php if(is_login())echo current_account()?></span>
+    <span id="weather" style="padding-left:10px"></span> </a>
+    <div class = "login-container"> <a class = "login-btn-grey" id = "toLogIn" href = "#"  <?php if(is_login()) echo 'style="display:none"' ?>>Log In</a> <a class = "login-btn-grey" id = "toSignUp" href = "#" <?php if(is_login()) echo 'style="display:none"' ?>>Sign Up</a> <a class = "login-btn-grey" id = "toSetting" href= "#" <?php if(!is_login()) echo 'style="display:none"' ?>>Setting</a> <a class = "login-btn-grey" id = "toLogOut" href= "php/logout.php" <?php if(!is_login()) echo 'style="display:none"' ?>>Log Out</a> </div>
   </header>
   <div class="container-fluid" style="margin-top:50px">
     <div class="row">
@@ -185,8 +186,8 @@
       </div>
       <!-- end of row --> 
     </div>
-    <!-- end of main --> 
-    <div id="footer"><span>©Copyright 2014 Json Huang. All Rights Reserved.</span> </div>
+    <!-- end of main -->
+    <div id="footer"><span>©Copyright 2014 Jason Huang. All Rights Reserved.</span> </div>
   </div>
   <!-- end of container-fluid --> 
 </div>

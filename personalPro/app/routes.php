@@ -13,9 +13,7 @@
 //最后，app/routes.php 文件会被加载。一旦 routes.php 文件被加载，Request 对象就被发送给应用程序对象，继而被派发到某个路由上。
 Route::get('/demo1', 'AdminController@demo1');///demo1?tmp1=1
 Route::get('/demo2/{tmp1}', 'AdminController@demo2');
-Route::get('/',function(){
-    return View::make('demo');
-});
+Route::get('/','AdminController@index');
 
 Route::get('/getInfo', 'AdminController@getInfo');
 Route::get('/signUp','AdminController@signUp');
@@ -25,7 +23,7 @@ Route::get('/getId','AdminController@getId');
 Route::get('/getCustom','AdminController@getCustom');
 Route::get('/getWeibotop10', 'AdminController@getWeibotop10');
 Route::get('/saveSetting','AdminController@saveSetting');
-/*Route::get('/', 'AdminController@show');*/
+
 
 
 /*//你也可以在 matched 事件上注册一个监听器，当一个传入请求已经和一个路由相匹配，但还未执行此路由之前，此事件就会被触发：

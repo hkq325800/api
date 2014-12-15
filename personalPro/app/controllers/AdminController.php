@@ -41,10 +41,14 @@ class AdminController extends BaseController {
 	{
 		return JSON_encode(User::where('account','=','hkq325800')->take(10)->get(), JSON_UNESCAPED_UNICODE);
 	}
-
+	public function index(){
+		return View::make('demo');
+	}
 	//localhost/demo/public/logIn?username=hkq325800&password=hkq93214
 	public function logIn(){
-		if(User::where('account','=',Input::get('username'))->where('password','=',Input::get('password'))->count()==1){
+		if(User::where('account','=',Input::get('username'))->where('password','=',Input::get('password'))->count()==1){//
+			//设置session
+			Session::put('username', Input::get('username'));
 			echo 'ok';
 		}
 		else if(User::where('account','=',Input::get('username'))->count()==0){
@@ -65,6 +69,7 @@ class AdminController extends BaseController {
 		$custom->isWeibotop10=1;
 		$custom->isWeather=1;
 		$custom->save();
+		Session::put('username', Input::get('username'));
 		echo 'ok';
 	}
 	public function getInfo(){
@@ -161,34 +166,7 @@ class AdminController extends BaseController {
 		echo 'ok';
 	}
 
-	//define ( 'IS_PROXY', true ); //是否启用代理
-	
-	/*static function vget($url) { // 模拟获取内容函数
-		$cookie_file = dirname ( __FILE__ ) . "/cookie_" . md5 ( basename ( __FILE__ ) ) . ".txt"; // 设置Cookie文件保存路径及文件名
-		$user_agent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.1.4322)";
-	    $curl = curl_init (); // 启动一个CURL会话
-	    if (true) {
-	        //以下代码设置代理服务器
-	        //代理服务器地址
-	        curl_setopt ( $curl, CURLOPT_PROXY,  'http://114.112.91.97');
-	        curl_setopt( $curl, CURLOPT_PROXYPORT, 90); //代理服务器端口
-	    }
-	    curl_setopt ( $curl, CURLOPT_URL, $url ); // 要访问的地址
-	    curl_setopt ( $curl, CURLOPT_SSL_VERIFYPEER, 0 ); // 对认证证书来源的检查
-	    curl_setopt ( $curl, CURLOPT_SSL_VERIFYHOST, 2 ); // 从证书中检查SSL加密算法是否存在
-	    curl_setopt ( $curl, CURLOPT_USERAGENT, $user_agent ); // 模拟用户使用的浏览器
-	    curl_setopt ( $curl, CURLOPT_FOLLOWLOCATION, 1 ); // 使用自动跳转
-	    curl_setopt ( $curl, CURLOPT_AUTOREFERER, 1 ); // 自动设置Referer
-	    curl_setopt ( $curl, CURLOPT_HTTPGET, 1 ); // 发送一个常规的Post请求
-	    curl_setopt ( $curl, CURLOPT_COOKIEFILE, $cookie_file ); // 读取上面所储存的Cookie信息
-	    curl_setopt ( $curl, CURLOPT_TIMEOUT, 120 ); // 设置超时限制防止死循环
-	    curl_setopt ( $curl, CURLOPT_HEADER, 0 ); // 显示返回的Header区域内容
-	    curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, 1 ); // 获取的信息以文件流的形式返回
-	    $tmpInfo = curl_exec ( $curl ); // 执行操作
-	    if (curl_errno ( $curl )) {
-	        echo 'Errno' . curl_error ( $curl );
-	    }
-	    curl_close ( $curl ); // 关闭CURL会话
-	    return $tmpInfo; // 返回数据
-	}*/
+	static function a(){
+
+	}
 }
