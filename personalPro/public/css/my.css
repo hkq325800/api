@@ -52,6 +52,24 @@
     margin: 0;
     padding: 0;
 }
+#province,#city,#county{
+	margin: 10px;
+}
+.cityselect{
+	width:400px;
+}
+#top_tag,#top1,#top2,#top3,#top4,#top5,#top6,#top7,#top8,#top9,#top10{
+	color: red;
+	text-shadow:10px 5px 25px white;
+}
+.a{
+	font-weight: 700;
+}
+#isBiliframe,#isWeibotop10,#isWeather{
+	margin-left: 10px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
 #footer {
 	position: fixed;
 	left: 0px;

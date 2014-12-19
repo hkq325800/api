@@ -7,8 +7,8 @@
 	    $$("toSignUp").onclick = function(){
 	        showSignUpPanel();
 	    }
-	    $$("toSetting").onclick = function(){
-	    	showSettingPanel();
+	    $$("toCustom").onclick = function(){
+	    	showCustomPanel();
 	    }
 	}
 	window.onresize = function(){
@@ -44,13 +44,10 @@
 			//$$('top'+i.toString()).innerHTML=;
 		}
 	}
-	function weather(flag){
+	function weather(flag,city){
 		if(flag){
-			var script = document.createElement("script");
-			script.language = "javascript";
-			script.text = " var myprovince = remote_ip_info['province'];var mycity = remote_ip_info['city'] ;var mydistrict = remote_ip_info['district'];$(function(){$('#city_1').citySelect({ prov:myprovince, city:mycity }); }); ";
-			document.body.appendChild(script);
-			var url="./city2weather?cityname="+mycity;
+			if(thiscity!="0"){city=thiscity;}
+			var url="./city2weather?cityname="+city;
 			var xmlhttp=createXMLHttp();
 			xmlhttp.open("GET",url,true);
 			xmlhttp.send();
@@ -67,6 +64,7 @@
 		else return;
 	}
 	function json2html_weather(json,insert_id){
+		$$(insert_id).innerHTML='';
 		json=eval("("+json+")");
 		var array=json.forecast.temp1.split("~");
 		var temp1=array[0].split("℃");
@@ -77,7 +75,7 @@
 		}else{
 			temp=json.forecast.temp1;
 		}
-		$$(insert_id).innerHTML+=json.forecast.city;
+		$$(insert_id).innerHTML+="<a class = 'login-btn-grey' id = 'toSetCity' href = '#' onclick='showSetCityPanel();'>"+json.forecast.city+"</a>";
 		$$(insert_id).innerHTML+=" 今日天气："+json.today.weatherStart;
 		if(json.today.weatherStart!=json.today.weatherEnd){
 			$$(insert_id).innerHTML+="转"+json.today.weatherEnd;

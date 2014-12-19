@@ -7,7 +7,7 @@
 	}
 
 	function logout(){
-		session_destroy();	
+		set_user('','');	
 	}
 
 	function current_account(){
@@ -20,6 +20,18 @@
 		if (is_login()) {
 			return ($_SESSION['userid']);
 		}
+	}
+
+	function current_city(){
+		if(isset($_SESSION['city'])){
+			return ($_SESSION['city']);
+		}else{
+			return '0';
+		}
+	}
+
+	function set_city($city){
+		$_SESSION['city']=$city;
 	}
 
 	function set_user($userid,$account){

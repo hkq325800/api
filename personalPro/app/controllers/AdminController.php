@@ -153,7 +153,7 @@ class AdminController extends BaseController {
 		$response = json_encode($arr);
 		echo $response;
 	}
-	public function saveSetting(){
+	public function saveCustom(){
 		$id=Input::get('id');
 		$isBiliframe=Input::get('a')?$isBiliframe=1:$isBiliframe=0;
 		$isWeibotop10=Input::get('b')?$isWeibotop10=1:$isWeibotop10=0;
@@ -164,6 +164,38 @@ class AdminController extends BaseController {
 		$custom->isWeather=$isWeather;
 		$custom->save();
 		echo 'ok';
+	}
+	public function getCity(){
+		$province=Input::get('province');
+		$city=Cityid::where('cityname','like',$province.'%')->where('cityid','like','_______01')->lists('cityname');
+		if($city==null){
+			$city=Cityid::where('cityname','like',$province.'%')->lists('cityname');
+		}
+		foreach ($city as $key => $value) {
+			if($value!=$province){
+				$city[$key]=str_replace($province,'',$value);
+			}
+		}
+		$arr=array('sum'=>$key+1,'city'=>$city);
+		$response = json_encode($arr);
+		echo $response;
+	}
+	public function getCounty(){
+		$province=Input::get('province');
+		$city=Input::get('city');
+		$union=$province.$city;
+		$county=Cityid::where('cityname','like',$union.'%')->lists('cityname');
+		foreach ($county as $key => $value) {
+			if($value!=$union){
+				$county[$key]=str_replace($union,'',$value);
+			}
+			else{
+				$county[$key]=$city;
+			}
+		}
+		$arr=array('sum'=>$key+1,'county'=>$county);
+		$response = json_encode($arr);
+		echo $response;
 	}
 
 	static function a(){

@@ -31,7 +31,7 @@ function getcustom(){
             flagArr=judgecustom(xmlhttp.responseText);
             biliiframe(flagArr[0]);
             weibotop10(flagArr[1]);
-            weather(flagArr[2]);
+            weather(flagArr[2],mycity);
         }
     }
 }
@@ -103,7 +103,7 @@ function showSignUpPanel(){
 	    "<div class = 'warning-container' id = 'warning1'></div>"+
 	    "<input id = 'captcha' name = 'captcha' class = 'captcha' placeholder = 'Captcha'"+
 	    "onkeyup = 'getInfo(this,2)' onblur = 'getInfo(this,2)'/>"+
-	    "<img  class = 'capimg'src = 'http://www.flappyant.com/secret/common/captcha.class.php?r=rand()' onclick = 'changeCaptcha(this)'/>"+
+	    "<img  class = 'capimg' src = 'http://www.flappyant.com/secret/common/captcha.class.php?r=rand()' onclick = 'changeCaptcha(this)'/>"+
 	    "<div class = 'warning-container' id = 'warning2'></div>"+
                 "<a id = 'signInBtn' class = 'submit-btn' href = 'javascript:submitSignUp();'>Sign Up</a></div></form>";
     var lWidth = document.documentElement.scrollWidth;
@@ -117,20 +117,19 @@ function showSignUpPanel(){
         document.body.removeChild(oSignUp);            
     }
 }
-function showSettingPanel(){
+function showCustomPanel(){
     var msk = addMask();
     var oset = document.createElement('div');
     var check = ['checked','checked','checked'];
     if(!isBiliframe)check[0]='';
     if(!isWeibotop10)check[1]='';
     if(!isWeather)check[2]='';
-    oset.id = "login-panel-container";
-    oset.innerHTML =  "<form action = '' id = 'Setting' autocomplete='off' ><div class = 'login-panel-container'>"+
+    oset.id = "setting-panel-container";
+    oset.innerHTML =  "<form action = '' id = 'Custom' autocomplete='off' ><div class = 'login-panel-container'>"+
                 "<input id = 'isBiliframe' name = 'isBiliframe' type='checkbox' class='' value = 'isBiliframe' "+check[0]+"/>新番放送表"+
-                "<input id = 'isWeibotop10' name = 'isWeibotop10' type='checkbox' class='' value = 'isWeibotop10' "+check[1]+"/>微博热搜榜"+
+                "<input id = 'isWeibotop10' name= 'isWeibotop10' type='checkbox' class='' value = 'isWeibotop10' "+check[1]+"/>微博热搜榜"+
                 "<input id = 'isWeather' name = 'isWeather' type='checkbox' value = 'isWeather' "+check[2]+"/>天气预报"+
-                "<div id = 'warninginfo'class = 'warning-info'></div>"+
-                "<a id = 'SettingBtn' class = 'submit-btn' href = 'javascript:saveSetting();'>Save</a></div></form>";
+                "<a id = 'CustomBtn' class = 'submit-btn' href = 'javascript:saveCustom();'>Save</a></div></form>";
     var lWidth = document.documentElement.scrollWidth;
     var lHeight = document.documentElement.scrollHeight;
     mleft = (lWidth - 400)/2 + "px";
@@ -141,6 +140,106 @@ function showSettingPanel(){
         document.body.removeChild(mask);
         document.body.removeChild(oset);
     }
+}
+function showSetCityPanel(){
+	var msk = addMask();
+    var oset = document.createElement('div');
+    oset.id = "setting-panel-container";
+    oset.innerHTML =  "<form method = 'POST' action = './php/setcity.php' id = 'SetCity' autocomplete='off'><div class = 'login-panel-container'>"+
+    			"选择城市："+
+    			"<div class='cityselect'>"+
+    			"<select id='province' name='province' onChange='getcity();'>"+
+    			"<option>北京</option>"+
+    			"<option>上海</option>"+
+    			"<option>天津</option>"+
+    			"<option>重庆</option>"+
+    			"<option>黑龙江</option>"+
+    			"<option>吉林</option>"+
+    			"<option>辽宁</option>"+
+    			"<option>内蒙古</option>"+
+    			"<option>河北</option>"+
+    			"<option>山西</option>"+
+    			"<option>陕西</option>"+
+    			"<option>山东</option>"+
+    			"<option>新疆</option>"+
+    			"<option>西藏</option>"+
+    			"<option>青海</option>"+
+    			"<option>甘肃</option>"+
+    			"<option>宁夏</option>"+
+    			"<option>河南</option>"+
+    			"<option>江苏</option>"+
+    			"<option>湖北</option>"+
+    			"<option>浙江</option>"+
+    			"<option>安徽</option>"+
+    			"<option>福建</option>"+
+    			"<option>江西</option>"+
+    			"<option>湖南</option>"+
+    			"<option>贵州</option>"+
+    			"<option>海南</option>"+
+    			"<option>香港</option>"+
+    			"<option>澳门</option>"+
+    			"<option>台湾</option>"+
+    			"</select>"+
+    			"<select id='city' name='city' onChange='getcounty();'></select>"+
+    			"<select id='county' name='county'></select>"+
+    			"</div>"+
+                "<a id = 'SetCityBtn' class = 'submit-btn' href = 'javascript:saveSetCity();'>Save</a></div></form>";
+    var lWidth = document.documentElement.scrollWidth;
+    var lHeight = document.documentElement.scrollHeight;
+    mleft = (lWidth - 400)/2 + "px";
+    oset.style.left = mleft;
+    oset.style.top = "100px";
+    document.body.appendChild(oset);
+    mask.onclick = function(){
+        document.body.removeChild(mask);
+        document.body.removeChild(oset);
+    }
+    getcity();
+}
+function getcity(){
+	//使二次变更省份能getcounty
+	$$('county').innerHTML='';
+	var xmlhttp = createXMLHttp();
+    xmlhttp.open("GET","./getCity?province="+$$('province').value,true);
+    xmlhttp.send();
+    xmlhttp.onreadystatechange=function(){
+        if (xmlhttp.readyState==4 && xmlhttp.status==200){
+            json2html_city(xmlhttp.responseText,'city');
+			getcounty();
+        }
+	}
+}
+function getcounty(){
+	$$('county').display="block";
+	var xmlhttp = createXMLHttp();
+    xmlhttp.open("GET","./getCounty?province="+$$('province').value+"&city="+$$('city').value,true);
+    xmlhttp.send();
+    xmlhttp.onreadystatechange=function(){
+        if (xmlhttp.readyState==4 && xmlhttp.status==200){
+            json2html_county(xmlhttp.responseText,'county')
+        }
+        else if(xmlhttp.readyState==4 && xmlhttp.status==500){
+        	$$('county').display="none";
+        }
+	}
+}
+function json2html_city(json,insert_id){
+		json=eval("("+json+")");
+		var sum=json.sum;
+		$$(insert_id).innerHTML='';
+		for(var i=0;i<sum;i++){
+			$$(insert_id).innerHTML+="<option>"+json.city[i]+"</option>";
+		}
+}
+function json2html_county(json,insert_id){
+		json=eval("("+json+")");
+		var sum=json.sum;
+		$$(insert_id).innerHTML='';
+		if(sum!=1){
+			for(var i=0;i<sum;i++){
+				$$(insert_id).innerHTML+="<option>"+json.county[i]+"</option>";
+			}
+		}
 }
 function changeCaptcha(img){
 	img.src="http://www.flappyant.com/secret/common/captcha.class.php?r="+Math.random();
@@ -220,7 +319,7 @@ function submitLogIn()
         }
 	}
 }
-function saveSetting(){
+function saveCustom(){
     var check=[];
     $$('isBiliframe').checked?isBiliframe=true:isBiliframe=false;
     $$('isWeibotop10').checked?isWeibotop10=true:isWeibotop10=false;
@@ -229,14 +328,14 @@ function saveSetting(){
     isWeibotop10?b=1:b=0;
     isWeather?c=1:c=0;
     var xmlhttp = createXMLHttp();
-    xmlhttp.open("GET","./saveSetting?id="+userid+"&a="+a+"&b="+b+"&c="+c,true);
+    xmlhttp.open("GET","./saveCustom?id="+userid+"&a="+a+"&b="+b+"&c="+c,true);
     xmlhttp.send();
     xmlhttp.onreadystatechange=function(){
         if (xmlhttp.readyState==4 && xmlhttp.status==200){
             var info=xmlhttp.responseText;
             if(info == "ok")
             {
-                $$('Setting').submit();
+                $$('Custom').submit();
             }
             else
             {
@@ -245,7 +344,13 @@ function saveSetting(){
         }
     }
 }
-
+function saveSetCity(){
+	$$("SetCity").submit();
+	/*if($$('county').value==''){
+		weather(true,$$('city').value);
+	}
+	else weather(true,$$('county').value);*/
+}
 
 //blogs
 //var pageId=0;

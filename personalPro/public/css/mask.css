@@ -21,6 +21,18 @@ div#login-panel-container
     text-align:center;
 }
 
+div#setting-panel-container
+{
+    width:400px;
+    height: 150px;
+    background: white;
+    position: fixed;
+    border-radius: 4px;
+    padding:1em;
+    z-index: 1001;
+    text-align:center;
+}
+
 input.login-username
 {
     width: 260px;

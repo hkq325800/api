@@ -26,35 +26,38 @@
 <link href= "css/his.css" rel="stylesheet" type="text/css" />
 <link href= "css/onepage-scroll.css" rel="stylesheet" type="text/css" />
 <script>
-	  $(document).ready(function(){
+    $(document).ready(function(){
       $(".main").onepage_scroll({
         sectionContainer: "section",
         loop: true,
         responsiveFallback: true
       });
-		});
+    });
+    var myprovince = remote_ip_info['province'];
+    var mycity = remote_ip_info['city']; 
+    var mydistrict = remote_ip_info['district'];
+    $(function(){$('#city_1').citySelect({ prov:myprovince, city:mycity }); }); 
 </script>
 </head>
-<script>var userid = "<?php if(is_login()){echo current_userid();}else {echo '0';} ?>";</script>
+<script>var userid = "<?php if(is_login()){echo current_userid();}else {echo '0';} ?>";var thiscity = "<?php echo current_city(); ?>";</script>
 
 <body style="width:100%;" onkeydown="if(window.event.keyCode==13){ window.event.keyCode=9}" background="./img/2.jpg">
 <!-- <audio src="hifi raver.mp3" autoplay="true" loop="true" style=""></audio> -->
 <div class=face>
-  <header class = "head-container" onselectstart="return false"> <a class = "logo-container" style="margin-top:6px"> 
-    <!-- <i class = "icon-cog icon-spin icon-2x"></i> &nbsp;--><span id="welcome">Personal Pro 欢迎你！</span>
-    <span style="margin-left:30px"><?php if(is_login())echo current_account()?></span>
-    <span id="weather" style="padding-left:10px"></span> </a>
-    <div class = "login-container"> <a class = "login-btn-grey" id = "toLogIn" href = "#"  <?php if(is_login()) echo 'style="display:none"' ?>>Log In</a> <a class = "login-btn-grey" id = "toSignUp" href = "#" <?php if(is_login()) echo 'style="display:none"' ?>>Sign Up</a> <a class = "login-btn-grey" id = "toSetting" href= "#" <?php if(!is_login()) echo 'style="display:none"' ?>>Setting</a> <a class = "login-btn-grey" id = "toLogOut" href= "php/logout.php" <?php if(!is_login()) echo 'style="display:none"' ?>>Log Out</a> </div>
+  <header class = "head-container" onselectstart="return false"> <a class = "logo-container" style="margin-top:6px"> <span id="welcome">Personal Pro 欢迎你！</span> <span style="margin-left:30px">
+    <?php if(is_login())echo current_account()?>
+    </span> <span id="weather" style="padding-left:10px"></span></a>
+    <div class = "login-container"> <a class = "login-btn-grey" id = "toLogIn" href = "#"  <?php if(is_login()) echo 'style="display:none"' ?>>Log In</a> <a class = "login-btn-grey" id = "toSignUp" href = "#" <?php if(is_login()) echo 'style="display:none"' ?>>Sign Up</a> <a class = "login-btn-grey" id = "toCustom" href= "#" <?php if(!is_login()) echo 'style="display:none"' ?>>Setting</a> <a class = "login-btn-grey" id = "toLogOut" href= "php/logout.php" <?php if(!is_login()) echo 'style="display:none"' ?>>Log Out</a> </div>
   </header>
   <div class="container-fluid" style="margin-top:50px">
     <div class="row">
       <div class="main onepage-wrapper" style="position: relative; -webkit-transform: translate3d(0px, 0%, 0px); transition: all 1000ms ease; -webkit-transition: all 1000ms ease;">
         <div class="col-lg-2 " id="socialsoft" style="background-color:#eee;opacity:0.4;width:10%;margin-left:20px">
           <ul class="nav nav-pills nav-stacked" role="tablist" style="max-width: 100px;">
-            <li role="presentation"><a href="http://www.renren.com/" target="_blank"><img src="img/renren_logo.png" style="width:40px;">人人</a></li>
-            <li role="presentation"><a href="http://weibo.com/login.php" target="_blank"><img src="img/xinlangweibo_logo.png" style="width:40px;">微博</a></li>
-            <li role="presentation"><a href="https://wx.qq.com/" target="_blank"><img src="img/weixin_logo.png" style="width:40px;">微信</a></li>
-            <li role="presentation"><a href="http://w.qq.com/" target="_blank"><img src="img/webqq_logo.png" style="width:40px;">QQ</a></li>
+            <li role="presentation"><a href="http://www.renren.com/" target="_blank"><img src="img/renren_logo.png" style="width:40px;"><span class='a'>人人</span></a></li>
+            <li role="presentation"><a href="http://weibo.com/login.php" target="_blank"><img src="img/xinlangweibo_logo.png" style="width:40px;"><span class='a'>微博</span></a></li>
+            <li role="presentation"><a href="https://wx.qq.com/" target="_blank"><img src="img/weixin_logo.png" style="width:40px;"><span class='a'>微信</span></a></li>
+            <li role="presentation"><a href="http://w.qq.com/" target="_blank"><img src="img/webqq_logo.png" style="width:40px;"><span class='a'>QQ</span></a></li>
           </ul>
         </div>
         <!-- end of col-lg-2 -->
